@@ -2,15 +2,15 @@ import sys
 from PyQt6.QtGui import QCursor
 from PyQt6.QtWidgets import QApplication, QWidget, QVBoxLayout, QListWidget, QListWidgetItem
 from PyQt6.QtCore import Qt
-
+import pyperclip
+import json
 
 class HistoryTipWindow(QWidget):
     def __init__(self):
         super().__init__()
-        # 窗口设置：无边框、置顶、半透明
+        # 窗口设置：无边框、半透明
         self.setWindowFlags(
             Qt.WindowType.FramelessWindowHint |
-            Qt.WindowType.WindowStaysOnTopHint |
             Qt.WindowType.Tool
         )
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
@@ -73,6 +73,10 @@ class HistoryTipWindow(QWidget):
         self.show()
         self.raise_()
         self.activateWindow()
+
+    
+
+
 
 
 # 测试入口
