@@ -1,5 +1,7 @@
 import json
 import pyperclip
+from storage import save_history
+import keyboard
 
 def key_press_event(self, key):
         """处理键盘事件：上下切换、默认Enter复制、Esc关闭"""
@@ -57,3 +59,18 @@ def key_press_event(self, key):
         except Exception as e:
             print(f"发生未知错误：{e}")
             return None
+        
+def on_copy():
+    text = pyperclip.paste()
+
+    if text or text.strip():
+        save_history(text)
+        print(f"[已记录] {text[:30]}...")
+    
+    
+
+def start_listener():
+    # 注册热键
+    keyboard.add_hotkey('ctrl+c', on_copy)
+    print("剪贴板监听已启动，按 Ctrl+C 复制内容即可记录")
+    keyboard.wait('esc')

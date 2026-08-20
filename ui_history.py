@@ -5,6 +5,7 @@ from PyQt6.QtCore import Qt
 import pyperclip
 import json
 
+
 class HistoryTipWindow(QWidget):
     def __init__(self):
         super().__init__()
@@ -54,25 +55,23 @@ class HistoryTipWindow(QWidget):
         # 默认隐藏
         self.hide()
 
-    def load_demo_data(self):
-        """加载示例数据，用来测试界面"""
-        demo_items = [
-            "Hello, 这是第一条历史",
-            "def hello_world(): print('hello')",
-            "https://github.com/your/repo",
-            "你好，这是第四条内容",
-            "最后一条历史记录，用于测试滚动效果"
-        ]
-        for text in demo_items:
-            self.list_widget.addItem(QListWidgetItem(text))
+    def load_history(self):
+        from storage import get_history
+        rows = get_history()
+        self.list_widget.clear()
+        for row in rows:
+            self.list_widget.addItem(QListWidgetItem(row[1]))
 
     def show_at_cursor(self):
         """在鼠标位置附近显示窗口"""
+        self.load_history()  # 每次弹出时刷新
         cursor_pos = QCursor.pos()
         self.move(cursor_pos.x() - 200, cursor_pos.y() - 50)
         self.show()
         self.raise_()
-        self.activateWindow()
+        self.list_widget.setFocus()
+
+    
 
     
 
