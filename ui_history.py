@@ -1,12 +1,10 @@
-import sys
 from PyQt6.QtGui import QCursor
 from PyQt6.QtWidgets import QApplication, QWidget, QVBoxLayout, QListWidget, QListWidgetItem
-from PyQt6.QtCore import Qt
-import pyperclip
-import json
-
+from PyQt6.QtCore import Qt, pyqtSignal
 
 class HistoryTipWindow(QWidget):
+    show_signal = pyqtSignal()
+
     def __init__(self):
         super().__init__()
         # 窗口设置：无边框、半透明
@@ -49,11 +47,11 @@ class HistoryTipWindow(QWidget):
         self.list_widget = QListWidget()
         layout.addWidget(self.list_widget)
 
-        # 加载假数据
-        self.load_demo_data()
+        # 加载数据
+        self.load_history()
 
-        # 默认隐藏
-        self.hide()
+        # 连接信号到显示方法
+        self.show_signal.connect(self.show_at_cursor)
 
     def load_history(self):
         from storage import get_history
@@ -63,24 +61,18 @@ class HistoryTipWindow(QWidget):
             self.list_widget.addItem(QListWidgetItem(row[1]))
 
     def show_at_cursor(self):
-        """在鼠标位置附近显示窗口"""
+        """在右上角显示窗口"""
         self.load_history()  # 每次弹出时刷新
-        cursor_pos = QCursor.pos()
-        self.move(cursor_pos.x() - 200, cursor_pos.y() - 50)
+        self.setGeometry(50, 50, 400, 200)
+        screen = QApplication.primaryScreen().availableGeometry()
+        self.move(screen.width() - self.width() - 20, 20)
         self.show()
         self.raise_()
         self.list_widget.setFocus()
 
-    
-
-    
-
-
-
-
-# 测试入口
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    window = HistoryTipWindow()
-    window.show_at_cursor()  # 测试显示
-    sys.exit(app.exec())
+    def toggle_visibility(self):
+        """显不显示窗口"""
+        if self.isVisible():
+            self.hide()
+        else:
+            self.show_at_cursor()

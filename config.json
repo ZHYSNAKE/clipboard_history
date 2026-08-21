@@ -3,6 +3,8 @@
     "hotkey_next": "ctrl+alt+down",
     "hotkey_delete": "alt+del",
     "hotkey_enter": "enter",
+    "hotkey_show":"ctrl+alt+e",
+    "hotkey_close":"ctrl+alt+q",
     "max_history": 100,
     "expire_minutes": 60
 }
