@@ -1,5 +1,5 @@
 from PyQt6.QtWidgets import QApplication, QFrame, QVBoxLayout, QListWidget, QListWidgetItem
-from PyQt6.QtCore import pyqtSignal
+from PyQt6.QtCore import pyqtSignal, Qt
 
 
 class HistoryTipWindow(QFrame):
@@ -47,7 +47,10 @@ class HistoryTipWindow(QFrame):
         rows = get_history()
         self.list_widget.clear()
         for row in rows:
-            self.list_widget.addItem(QListWidgetItem(row[1]))
+            item = QListWidgetItem(row[1])
+            item.setData(Qt.ItemDataRole.UserRole, row[0])
+            self.list_widget.addItem(item)
+
 
     def show_at_cursor(self):
         """在右上角显示窗口"""

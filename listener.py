@@ -1,6 +1,6 @@
 import pyperclip
 from ui_history import HistoryTipWindow
-from PyQt6.QtCore import pyqtSignal
+from PyQt6.QtCore import pyqtSignal, Qt
 
 class KeyEvent(HistoryTipWindow):
     show_signal = pyqtSignal()
@@ -38,16 +38,12 @@ class KeyEvent(HistoryTipWindow):
 
     def del_current(self):
         # 删除当前指针指向的内容并向上移动
-        # 如果指针指向的已经是最后一个则向下移动  
+        # 如果指针指向的已经是最后一个则向下移动
+        from storage import del_by_id  
         current_row = self.list_widget.currentRow() # 当前行
         total = self.list_widget.count()            # 总行数      
         if total > 0:
+            id = self.list_widget.item(current_row).data(Qt.ItemDataRole.UserRole)
+            print(id)
+            del_by_id(id)
             self.list_widget.takeItem(current_row)
-            # 如果删除后列表空了，不做特殊处理
-            # 如果删除后还有项，选中下一行（如果当前行超出范围则选中最后一行）
-            new_total = self.list_widget.count()
-            if new_total > 0:
-                if current_row >= new_total:
-                    self.list_widget.setCurrentRow(new_total - 1)
-                else:
-                    self.list_widget.setCurrentRow(current_row)

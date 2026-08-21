@@ -62,4 +62,18 @@ def del_history():
         """,(data["expire_minutes"],)
     )
     conn.commit()
+    print("已删除")
+    conn.close()
+
+def del_by_id(id):
+    """按id删除历史记录"""
+    conn = sqlite3.connect("history.db")
+    c = conn.cursor()
+    c.execute(
+        """
+        DELETE FROM history 
+        WHERE id=?
+        """,(id,)
+    )
+    conn.commit()
     conn.close()
