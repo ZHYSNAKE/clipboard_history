@@ -58,7 +58,7 @@ class HistoryTipWindow(QFrame):
         # 选中最新的一条（第一条）
         if self.list_widget.count() > 0:
             self.list_widget.setCurrentRow(0)
-        self.setGeometry(50, 50, 400, 200)
+        self.setGeometry(50, 50, 400, 800)
         screen = QApplication.primaryScreen().availableGeometry()
         self.move(screen.width() - self.width() - 20, 20)
         self.show()

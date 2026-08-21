@@ -41,9 +41,11 @@ class KeyEvent(HistoryTipWindow):
         # 如果指针指向的已经是最后一个则向下移动
         from storage import del_by_id  
         current_row = self.list_widget.currentRow() # 当前行
-        total = self.list_widget.count()            # 总行数      
-        if total > 0:
-            id = self.list_widget.item(current_row).data(Qt.ItemDataRole.UserRole)
-            print(id)
-            del_by_id(id)
-            self.list_widget.takeItem(current_row)
+        total = self.list_widget.count()            # 总行数     
+        temp = current_row
+        id = self.list_widget.item(current_row).data(Qt.ItemDataRole.UserRole)
+        del_by_id(id)
+        self.list_widget.takeItem(current_row)
+        if temp < total - 1:
+            self.list_widget.setCurrentRow(temp-1)
+

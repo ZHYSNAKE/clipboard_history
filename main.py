@@ -36,20 +36,16 @@ def main():
     window = KeyEvent()
     watcher = ClipboardWatcher()
     window.watcher = watcher
+    window.show_at_cursor()
     print("窗口已创建")
 
     with open("config.json", "r", encoding="utf-8") as f:
         config = json.load(f)
 
-    # 注册全局热键（呼出窗口）
-    window.show_at_cursor()
+    # 注册全局热键
     keyboard.add_hotkey(config["hotkey_prev"], window.move_up)
     keyboard.add_hotkey(config["hotkey_next"], window.move_down)
     keyboard.add_hotkey(config["hotkey_delete"], window.del_current)
- 
-    # 切换窗口显示/隐藏的线程
-    window.toggle_signal.connect(window.toggle_visibility)
-    keyboard.add_hotkey(config["hotkey_show"], window.toggle_signal.emit)
 
     # 退出程序的线程
     window.close_signal.connect(app.quit)
@@ -63,7 +59,7 @@ def main():
 
     print("✅ 所有热键已注册")
     print(f"📌 按 {config['hotkey_prev']}/{config['hotkey_next']} 切换剪贴板")
-    print(f"📌 按 {config['hotkey_show']} 切换窗口显示/隐藏")
+    print(f"📌 按 {config['hotkey_delete']} 删除指定内容")
     print(f"📌 按 {config['hotkey_close']} 退出程序")
 
     sys.exit(app.exec())

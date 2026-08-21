@@ -1,9 +1,8 @@
 {
-    "hotkey_prev": "up",
-    "hotkey_next": "down",
-    "hotkey_delete": "alt+del",
-    "hotkey_show":"ctrl+e",
-    "hotkey_close":"ctrl+q",
+    "hotkey_prev": "ctrl+shift+w",
+    "hotkey_next": "ctrl+shift+s",
+    "hotkey_delete": "ctrl+shift+d",
+    "hotkey_close":"ctrl+shift+q",
     "max_history": 100,
     "expire_minutes": 60,
     "save_time": 200
