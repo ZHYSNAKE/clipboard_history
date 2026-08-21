@@ -6,5 +6,6 @@
     "hotkey_show":"ctrl+alt+e",
     "hotkey_close":"ctrl+alt+q",
     "max_history": 100,
-    "expire_minutes": 60
+    "expire_minutes": 60,
+    "save_time": 1000
 }
