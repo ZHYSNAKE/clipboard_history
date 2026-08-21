@@ -1,11 +1,10 @@
 {
-    "hotkey_prev": "ctrl+alt+up",
-    "hotkey_next": "ctrl+alt+down",
+    "hotkey_prev": "up",
+    "hotkey_next": "down",
     "hotkey_delete": "alt+del",
-    "hotkey_enter": "enter",
-    "hotkey_show":"ctrl+alt+e",
-    "hotkey_close":"ctrl+alt+q",
+    "hotkey_show":"ctrl+e",
+    "hotkey_close":"ctrl+q",
     "max_history": 100,
     "expire_minutes": 60,
-    "save_time": 1000
+    "save_time": 200
 }

@@ -15,10 +15,8 @@ class ClipboardWatcher:
         self.skip_next = False
 
     def check(self):
-        # 上下切换的时候不把指定内容加入到表里
         if self.skip_next:
             self.skip_next = False
-            # 还要同步更新 last_text 为当前剪贴板内容，防止后续误判
             self.last_text = pyperclip.paste()
             return
 
@@ -28,13 +26,15 @@ class ClipboardWatcher:
             save_history(text)
             print(f"[已记录] {text[:30]}...")
 
+            
+
 def main():
     init_db()
     print("数据库已就绪")
 
     app = QApplication(sys.argv)
-    watcher = ClipboardWatcher()
     window = KeyEvent()
+    watcher = ClipboardWatcher()
     window.watcher = watcher
     print("窗口已创建")
 
@@ -42,9 +42,11 @@ def main():
         config = json.load(f)
 
     # 注册全局热键（呼出窗口）
-    keyboard.add_hotkey(config["hotkey_prev"], window.show_signal.emit)
-    keyboard.add_hotkey(config["hotkey_next"], window.show_signal.emit)
-
+    window.show_at_cursor()
+    keyboard.add_hotkey(config["hotkey_prev"], window.move_up)
+    keyboard.add_hotkey(config["hotkey_next"], window.move_down)
+    keyboard.add_hotkey(config["hotkey_delete"], window.del_current)
+ 
     # 切换窗口显示/隐藏的线程
     window.toggle_signal.connect(window.toggle_visibility)
     keyboard.add_hotkey(config["hotkey_show"], window.toggle_signal.emit)
@@ -60,7 +62,7 @@ def main():
     print("剪贴板自动记录已启动")
 
     print("✅ 所有热键已注册")
-    print(f"📌 按 {config['hotkey_prev']}/{config['hotkey_next']} 呼出历史列表")
+    print(f"📌 按 {config['hotkey_prev']}/{config['hotkey_next']} 切换剪贴板")
     print(f"📌 按 {config['hotkey_show']} 切换窗口显示/隐藏")
     print(f"📌 按 {config['hotkey_close']} 退出程序")
 

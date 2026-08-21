@@ -1,5 +1,5 @@
 from PyQt6.QtWidgets import QApplication, QFrame, QVBoxLayout, QListWidget, QListWidgetItem
-from PyQt6.QtCore import Qt, pyqtSignal
+from PyQt6.QtCore import pyqtSignal
 
 
 class HistoryTipWindow(QFrame):
@@ -7,41 +7,31 @@ class HistoryTipWindow(QFrame):
 
     def __init__(self):
         super().__init__()
-        # 窗口设置：无边框 + 不透明
-        self.setWindowFlags(
-            Qt.WindowType.FramelessWindowHint |
-            Qt.WindowType.Tool
-        )
-        # 不启用透明，背景色直接生效
+        self.setWindowTitle("历史剪贴板")
         self.setGeometry(300, 300, 400, 300)
         
-        # 样式：浅蓝 + 圆角 + 黑色文字
         self.setStyleSheet("""
             QFrame {
-                background-color: #e8f4fd;      /* 浅蓝色 */
-                border-radius: 40px;            /* 大圆角 */
-                border: 1px solid rgba(100, 180, 255, 80);
+                background-color: #ffffff;
             }
             QListWidget {
-                background: transparent;
+                background: #ffffff;
                 border: none;
-                color: #000000;                /* ← 纯黑文字 */
+                color: #000000;
                 font-size: 14px;
-                padding: 10px;
             }
             QListWidget::item {
                 padding: 8px 12px;
-                border-radius: 10px;
-                margin: 2px 0;
+                border-bottom: 1px solid #000000;   /* 黑线分割 */
             }
             QListWidget::item:selected {
-                background-color: #7bb8e0;      /* 选中浅蓝 */
-                color: white;
+                background-color: #e0e8f0;
+                color: #000000;
             }
             QListWidget::item:hover {
-                background-color: #c5e0f5;      /* 悬停浅蓝 */
-            }"""
-        )
+                background-color: #f0f4f8;
+            }
+        """)
 
         # 布局
         layout = QVBoxLayout(self)
@@ -62,6 +52,9 @@ class HistoryTipWindow(QFrame):
     def show_at_cursor(self):
         """在右上角显示窗口"""
         self.load_history()  # 每次弹出时刷新
+        # 选中最新的一条（第一条）
+        if self.list_widget.count() > 0:
+            self.list_widget.setCurrentRow(0)
         self.setGeometry(50, 50, 400, 200)
         screen = QApplication.primaryScreen().availableGeometry()
         self.move(screen.width() - self.width() - 20, 20)
