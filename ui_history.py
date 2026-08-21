@@ -40,7 +40,6 @@ class HistoryTipWindow(QFrame):
         layout.addWidget(self.list_widget)
 
         self.load_history()
-        self.show_signal.connect(self.show_at_cursor)
 
     def load_history(self):
         from storage import get_history
@@ -64,18 +63,3 @@ class HistoryTipWindow(QFrame):
         self.show()
         self.raise_()
         self.list_widget.setFocus()
-
-    def toggle_visibility(self):
-        """切换窗口显示/隐藏"""
-        if self.isVisible():
-            self.hide()
-        else:
-            self.show_at_cursor()
-
-if __name__ == "__main__":
-    import sys
-    from PyQt6.QtWidgets import QApplication
-    app = QApplication(sys.argv)
-    window = HistoryTipWindow()
-    window.show_at_cursor()
-    sys.exit(app.exec())

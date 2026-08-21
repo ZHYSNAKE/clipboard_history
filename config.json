@@ -4,6 +4,5 @@
     "hotkey_delete": "ctrl+shift+d",
     "hotkey_close":"ctrl+shift+q",
     "max_history": 100,
-    "expire_minutes": 60,
     "save_time": 200
 }
